@@ -61,7 +61,7 @@
     <a href="https://omni-ai-tutor-v2.netlify.app/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-white text-orange-600 rounded font-semibold hover:bg-orange-50 transition text-sm whitespace-nowrap mr-2">
         Try v2 Now
     </a>
-    <button onclick="document.getElementById('v2-banner').style.display='none'" class="text-white hover:opacity-80 transition">
+    <button onclick="closeBanner()" class="text-white hover:opacity-80 transition">
         <i class="fa-solid fa-xmark text-lg"></i>
     </button>
 </div>
@@ -80,7 +80,7 @@
 </div>  
 
 <!-- LEFT SIDEBAR: CHAT -->  
-<div class="w-full md:w-1/3 lg:w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col h-[40vh] md:h-full relative z-10" style="margin-top: 88px;">  
+<div id="chat-sidebar" class="w-full md:w-1/3 lg:w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col h-[40vh] md:h-full relative z-10" style="margin-top: 88px;">  
     <!-- Header -->  
     <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900">  
         <h1 class="text-xl font-bold text-blue-400 flex items-center gap-2">  
@@ -113,7 +113,7 @@
 </div>  
 
 <!-- RIGHT MAIN CONTENT: WORKSPACE -->  
-<div class="flex-1 flex flex-col bg-slate-950 h-[60vh] md:h-full relative overflow-hidden" style="margin-top: 88px;">  
+<div id="workspace" class="flex-1 flex flex-col bg-slate-950 h-[60vh] md:h-full relative overflow-hidden" style="margin-top: 88px;">  
       
     <!-- Tabs / Header -->  
     <div class="h-14 border-b border-slate-800 flex items-center px-4 bg-slate-950">  
@@ -705,6 +705,19 @@ console.log("2 + 2 =", sum);</textarea>
     // Start App  
     window.addEventListener('load', app.init);  
 
+</script>
+
+<!-- Banner Close Function -->
+<script>
+function closeBanner() {
+    const banner = document.getElementById('v2-banner');
+    const sidebar = document.getElementById('chat-sidebar');
+    const workspace = document.getElementById('workspace');
+    
+    banner.style.display = 'none';
+    sidebar.style.marginTop = '0';
+    workspace.style.marginTop = '0';
+}
 </script>
 
 </body>  
