@@ -48,7 +48,25 @@
 </style>
 
 </head>  
-<body class="bg-slate-950 text-slate-200 h-screen w-screen overflow-hidden flex flex-col md:flex-row font-sans">  <!-- API Key Modal (Shown if key is missing/invalid) -->  
+<body class="bg-slate-950 text-slate-200 h-screen w-screen overflow-hidden flex flex-col md:flex-row font-sans">  
+<!-- V2 BANNER -->
+<div id="v2-banner" class="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-amber-600 to-orange-500 text-white px-4 py-3 shadow-lg flex items-center justify-between">
+    <div class="flex items-center gap-3 flex-1">
+        <i class="fa-solid fa-rocket"></i>
+        <div>
+            <p class="text-sm font-semibold">✨ Omni AI v2 is now available!</p>
+            <p class="text-xs opacity-90">Experience the upgraded version with enhanced features and performance.</p>
+        </div>
+    </div>
+    <a href="https://omni-ai-tutor-v2.netlify.app/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-white text-orange-600 rounded font-semibold hover:bg-orange-50 transition text-sm whitespace-nowrap mr-2">
+        Try v2 Now
+    </a>
+    <button onclick="document.getElementById('v2-banner').style.display='none'" class="text-white hover:opacity-80 transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+    </button>
+</div>
+
+<!-- API Key Modal (Shown if key is missing/invalid) -->  
 <div id="auth-modal" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center backdrop-blur-sm hidden">  
     <div class="bg-slate-900 border border-slate-700 p-8 rounded-xl shadow-2xl w-full max-w-md">  
         <h2 class="text-2xl font-bold mb-4 text-blue-400"><i class="fa-solid fa-key mr-2"></i>Enter Gemini API Key</h2>  
@@ -62,7 +80,7 @@
 </div>  
 
 <!-- LEFT SIDEBAR: CHAT -->  
-<div class="w-full md:w-1/3 lg:w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col h-[40vh] md:h-full relative z-10">  
+<div class="w-full md:w-1/3 lg:w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col h-[40vh] md:h-full relative z-10" style="margin-top: 88px;">  
     <!-- Header -->  
     <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900">  
         <h1 class="text-xl font-bold text-blue-400 flex items-center gap-2">  
@@ -95,7 +113,7 @@
 </div>  
 
 <!-- RIGHT MAIN CONTENT: WORKSPACE -->  
-<div class="flex-1 flex flex-col bg-slate-950 h-[60vh] md:h-full relative overflow-hidden">  
+<div class="flex-1 flex flex-col bg-slate-950 h-[60vh] md:h-full relative overflow-hidden" style="margin-top: 88px;">  
       
     <!-- Tabs / Header -->  
     <div class="h-14 border-b border-slate-800 flex items-center px-4 bg-slate-950">  
@@ -118,10 +136,10 @@
         <div class="h-10 border-b border-slate-800 flex items-center px-4 gap-2 bg-slate-900/50">  
             <span class="text-xs text-slate-400 font-mono">script.js</span>  
             <div class="flex-1"></div>  
-            <button onclick="app.improveCode()" class="text-xs bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 border border-purple-500/30 px-3 py-1 rounded transition flex items-center gap-1">  
+            <button onclick="app.improveCode()" class="text-xs bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 border border-purple-500/30 px-3 py-1 rounded transition flex items-center g[...]
                 <i class="fa-solid fa-wand-magic-sparkles"></i> AI Improve  
             </button>  
-            <button onclick="app.runCode()" class="text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded transition flex items-center gap-1 font-bold shadow-lg shadow-green-900/20">  
+            <button onclick="app.runCode()" class="text-xs bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded transition flex items-center gap-1 font-bold shadow-lg shadow-green-900/20"[...]
                 <i class="fa-solid fa-play"></i> Run  
             </button>  
         </div>  
@@ -133,9 +151,9 @@
 console.log("Hello from OmniTutor!");
 const sum = 2 + 2;
 console.log("2 + 2 =", sum);</textarea>
-</div>
-
-<!-- Console Output -->  
+        </div>
+        
+        <!-- Console Output -->  
         <div class="h-1/3 border-t border-slate-700 bg-slate-900 flex flex-col">  
             <div class="h-8 border-b border-slate-800 px-4 flex items-center justify-between bg-slate-800">  
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Console</span>  
@@ -223,7 +241,7 @@ console.log("2 + 2 =", sum);</textarea>
             <h2 class="text-3xl font-bold text-white mb-2">Quiz Complete!</h2>  
             <p class="text-slate-400 mb-6">Here is how you performed:</p>  
             <div class="text-5xl font-bold text-white mb-6" id="final-score">8/10</div>  
-            <button onclick="document.getElementById('quiz-results').classList.add('hidden'); document.getElementById('quiz-placeholder').classList.remove('hidden');" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white px-6 py-2 rounded-lg transition">  
+            <button onclick="document.getElementById('quiz-results').classList.add('hidden'); document.getElementById('quiz-placeholder').classList.remove('hidden');" class="bg-slate-800 hover:bg[...]
                 Back to Menu  
             </button>  
         </div>  
@@ -338,7 +356,7 @@ console.log("2 + 2 =", sum);</textarea>
                 const genAI = new GoogleGenerativeAI(API_KEY);  
                 client = genAI.getGenerativeModel({   
                     model: "gemini-2.0-flash", // Using latest Flash model  
-                    systemInstruction: "You are OmniTutor, an AI coding assistant and teacher. Your goal is to help the user learn programming or general knowledge. If the user asks for code, provide it cleanly. If they ask for a quiz, you will facilitate that."  
+                    systemInstruction: "You are OmniTutor, an AI coding assistant and teacher. Your goal is to help the user learn programming or general knowledge. If the user asks for code, pro[...]
                 });  
                   
                 chatSession = client.startChat({  
@@ -620,7 +638,7 @@ console.log("2 + 2 =", sum);</textarea>
 
             qData.options.forEach((opt, idx) => {  
                 const btn = document.createElement('button');  
-                btn.className = "w-full text-left p-4 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 hover:border-blue-500 transition group flex items-center justify-between";  
+                btn.className = "w-full text-left p-4 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 hover:border-blue-500 transition group flex items-center justify-between";[...]
                 btn.innerHTML = `<span class="font-medium text-slate-300 group-hover:text-white">${opt}</span>`;  
                 btn.onclick = () => app.handleAnswer(idx, btn);  
                 dom.quiz.optionsGrid.appendChild(btn);  
