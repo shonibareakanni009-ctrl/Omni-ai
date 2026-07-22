@@ -1,0 +1,59 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* Code Editor Styling */
+.code-editor {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #0f172a; /* Slate 900 */
+    color: #e2e8f0; /* Slate 200 */
+    line-height: 1.5;
+    tab-size: 4;
+}
+
+/* Console Output Styling */
+.console-output {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Margin adjustments for banner */
+#chat-sidebar {
+    margin-top: 88px;
+    transition: margin-top 0.3s ease;
+}
+
+#workspace {
+    margin-top: 88px;
+    transition: margin-top 0.3s ease;
+}
+
+/* Banner styling */
+#v2-banner {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
