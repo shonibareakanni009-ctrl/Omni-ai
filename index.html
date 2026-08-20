@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OmniTutor AI</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <!-- Import Map for Google Generative AI SDK -->
     <script type="importmap">
     {
         "imports": {
@@ -21,7 +17,6 @@
 </head>
 <body class="bg-slate-950 text-slate-200 h-screen w-screen overflow-hidden flex flex-col md:flex-row font-sans">
 
-<!-- V2 BANNER -->
 <div id="v2-banner" class="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-amber-600 to-orange-500 text-white px-4 py-3 shadow-lg flex items-center justify-between">
     <div class="flex items-center gap-3 flex-1">
         <i class="fa-solid fa-rocket"></i>
@@ -38,7 +33,6 @@
     </button>
 </div>
 
-<!-- API Key Modal (Shown if key is missing/invalid) -->
 <div id="auth-modal" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center backdrop-blur-sm hidden">
     <div class="bg-slate-900 border border-slate-700 p-8 rounded-xl shadow-2xl w-full max-w-md">
         <h2 class="text-2xl font-bold mb-4 text-blue-400"><i class="fa-solid fa-key mr-2"></i>Enter Gemini API Key</h2>
@@ -51,9 +45,7 @@
     </div>
 </div>
 
-<!-- LEFT SIDEBAR: CHAT -->
 <div id="chat-sidebar" class="w-full md:w-1/3 lg:w-1/4 bg-slate-900 border-r border-slate-800 flex flex-col h-[40vh] md:h-full relative z-10" style="margin-top: 88px;">
-    <!-- Header -->
     <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900">
         <h1 class="text-xl font-bold text-blue-400 flex items-center gap-2">
             <i class="fa-solid fa-robot"></i> OmniTutor
@@ -61,9 +53,7 @@
         <div class="text-xs px-2 py-1 rounded bg-slate-800 text-slate-400" id="status-indicator">Ready</div>
     </div>
 
-    <!-- Chat History -->
     <div id="chat-history" class="flex-1 overflow-y-auto p-4 space-y-4">
-        <!-- Welcome Message -->
         <div class="flex flex-col gap-1 items-start animate-fade-in">
             <div class="bg-slate-800 p-3 rounded-lg rounded-tl-none max-w-[90%] border border-slate-700 shadow-sm">
                 <p class="text-sm">Hello! I'm OmniTutor. I can teach you concepts, run code, or quiz you.</p>
@@ -72,7 +62,6 @@
         </div>
     </div>
 
-    <!-- Input Area -->
     <div class="p-4 border-t border-slate-800 bg-slate-900">
         <div class="relative">
             <textarea id="chat-input" rows="1" placeholder="Type a message..."
@@ -84,10 +73,8 @@
     </div>
 </div>
 
-<!-- RIGHT MAIN CONTENT: WORKSPACE -->
 <div id="workspace" class="flex-1 flex flex-col bg-slate-950 h-[60vh] md:h-full relative overflow-hidden" style="margin-top: 88px;">
 
-    <!-- Tabs / Header -->
     <div class="h-14 border-b border-slate-800 flex items-center px-4 bg-slate-950">
         <div class="flex space-x-1 bg-slate-900 p-1 rounded-lg">
             <button onclick="switchTab('code')" id="tab-code" class="px-4 py-1.5 rounded text-sm font-medium transition bg-blue-600 text-white shadow">
@@ -102,9 +89,7 @@
         </div>
     </div>
 
-    <!-- VIEW: CODE EDITOR -->
     <div id="view-code" class="flex-1 flex flex-col h-full overflow-hidden">
-        <!-- Toolbar -->
         <div class="h-10 border-b border-slate-800 flex items-center px-4 gap-2 bg-slate-900/50">
             <span class="text-xs text-slate-400 font-mono">script.js</span>
             <div class="flex-1"></div>
@@ -116,7 +101,6 @@
             </button>
         </div>
 
-        <!-- Editor Textarea -->
         <div class="flex-1 relative">
             <textarea id="code-editor" class="code-editor w-full h-full p-4 resize-none focus:outline-none" spellcheck="false">// Write JavaScript here
 
@@ -125,7 +109,6 @@ const sum = 2 + 2;
 console.log("2 + 2 =", sum);</textarea>
         </div>
 
-        <!-- Console Output -->
         <div class="h-1/3 border-t border-slate-700 bg-slate-900 flex flex-col">
             <div class="h-8 border-b border-slate-800 px-4 flex items-center justify-between bg-slate-800">
                 <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Console</span>
@@ -139,10 +122,8 @@ console.log("2 + 2 =", sum);</textarea>
         </div>
     </div>
 
-    <!-- VIEW: QUIZ INTERFACE -->
     <div id="view-quiz" class="flex-1 hidden flex-col h-full overflow-y-auto p-4 md:p-8 items-center justify-center">
 
-        <!-- Quiz Placeholder State -->
         <div id="quiz-placeholder" class="text-center max-w-md">
             <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-600">
                 <i class="fa-solid fa-graduation-cap text-4xl"></i>
@@ -159,9 +140,7 @@ console.log("2 + 2 =", sum);</textarea>
             </div>
         </div>
 
-        <!-- Active Quiz Container -->
         <div id="quiz-container" class="w-full max-w-2xl hidden">
-            <!-- Score Header -->
             <div class="flex justify-between items-center mb-6">
                 <span id="quiz-topic" class="text-sm font-bold text-blue-400 uppercase tracking-wider">Topic</span>
                 <div class="flex items-center gap-2">
@@ -170,9 +149,7 @@ console.log("2 + 2 =", sum);</textarea>
                 </div>
             </div>
 
-            <!-- Question Card -->
             <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 shadow-xl relative overflow-hidden">
-                <!-- Progress Bar -->
                 <div class="absolute top-0 left-0 h-1 bg-slate-800 w-full">
                     <div id="quiz-progress" class="h-full bg-blue-500 transition-all duration-300" style="width: 0%"></div>
                 </div>
@@ -182,12 +159,9 @@ console.log("2 + 2 =", sum);</textarea>
                     <h3 id="question-text" class="text-xl font-medium text-white mt-1">Loading question...</h3>
                 </div>
 
-                <!-- Options Grid -->
                 <div id="options-grid" class="grid grid-cols-1 gap-3">
-                    <!-- Options injected by JS -->
                 </div>
 
-                <!-- Explanation Box (Hidden initially) -->
                 <div id="explanation-box" class="mt-6 p-4 bg-slate-800/50 border border-slate-700 rounded-lg hidden animate-fade-in">
                     <div class="flex items-start gap-3">
                         <i id="feedback-icon" class="fa-solid fa-circle-info mt-1"></i>
@@ -198,7 +172,6 @@ console.log("2 + 2 =", sum);</textarea>
                     </div>
                 </div>
 
-                <!-- Next Button -->
                 <div class="mt-6 flex justify-end">
                     <button id="next-question-btn" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-medium transition hidden shadow-lg shadow-blue-900/20">
                         Next Question <i class="fa-solid fa-arrow-right ml-2"></i>
@@ -207,7 +180,6 @@ console.log("2 + 2 =", sum);</textarea>
             </div>
         </div>
 
-        <!-- Quiz Results -->
         <div id="quiz-results" class="hidden text-center max-w-md animate-scale-up">
             <i class="fa-solid fa-trophy text-5xl text-yellow-500 mb-6 drop-shadow-lg"></i>
             <h2 class="text-3xl font-bold text-white mb-2">Quiz Complete!</h2>
@@ -220,7 +192,6 @@ console.log("2 + 2 =", sum);</textarea>
     </div>
 </div>
 
-<!-- Global utility functions accessible from HTML onclick -->
 <script>
 function clearConsole() {
     document.getElementById('console-output').innerHTML = '';
@@ -231,7 +202,6 @@ function resetQuiz() {
     document.getElementById('quiz-placeholder').classList.remove('hidden');
 }
 
-// Wrapper functions to call app methods
 function switchTab(mode) {
     if (window.app && window.app.switchTab) {
         window.app.switchTab(mode);
@@ -251,10 +221,8 @@ function runCode() {
 }
 </script>
 
-<!-- Banner Close Function -->
 <script src="banner.js"></script>
 
-<!-- Main Application Script (Module) -->
 <script type="module" src="script.js"></script>
 
 </body>

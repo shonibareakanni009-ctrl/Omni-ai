@@ -1,11 +1,9 @@
 import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
 
-// --- CONFIG ---
 let API_KEY = '';
 let client = null;
 let chatSession = null;
 
-// --- STATE MANAGEMENT ---
 const state = {
     mode: 'code', // 'code' or 'quiz'
     quiz: {
@@ -17,7 +15,6 @@ const state = {
     }
 };
 
-// --- DOM ELEMENTS ---
 const dom = {
     tabs: {
         code: document.getElementById('tab-code'),
@@ -60,10 +57,8 @@ const dom = {
     }
 };
 
-// --- APP LOGIC ---
 const app = {
     init: async () => {
-        // Check for stored key
         const storedKey = localStorage.getItem('gemini_api_key');
         if (storedKey) {
             API_KEY = storedKey;
@@ -74,7 +69,6 @@ const app = {
             app.initGemini();
         }
 
-        // Event Listeners
         dom.chat.sendBtn.addEventListener('click', app.sendMessage);
         dom.chat.input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -93,7 +87,6 @@ const app = {
             }
         });
 
-        // Expose specific functions globally for HTML onclick attributes
         window.app = app;
     },
 
@@ -127,11 +120,9 @@ const app = {
         }
     },
 
-    // --- UI SWITCHING ---
     switchTab: (mode) => {
         state.mode = mode;
 
-        // Update Buttons
         dom.tabs.code.className = mode === 'code'
             ? 'px-4 py-1.5 rounded text-sm font-medium transition bg-blue-600 text-white shadow'
             : 'px-4 py-1.5 rounded text-sm font-medium transition hover:bg-slate-800 text-slate-400';
@@ -140,7 +131,6 @@ const app = {
             ? 'px-4 py-1.5 rounded text-sm font-medium transition bg-blue-600 text-white shadow'
             : 'px-4 py-1.5 rounded text-sm font-medium transition hover:bg-slate-800 text-slate-400';
 
-        // Update Views
         if (mode === 'code') {
             dom.views.code.classList.remove('hidden');
             dom.views.quiz.classList.add('hidden');
@@ -152,31 +142,26 @@ const app = {
         }
     },
 
-    // --- CHAT & INTENT ---
     sendMessage: async () => {
         if (!chatSession) return;
         const text = dom.chat.input.value.trim();
         if (!text) return;
 
-        // 1. Add User Message
         app.appendMessage('user', text);
         dom.chat.input.value = '';
         app.setLoading(true);
 
-        // 2. Intent Detection
         const lowerText = text.toLowerCase();
         const isQuizRequest = lowerText.includes('quiz') || lowerText.includes('test me');
         const isCodeRequest = lowerText.includes('write code') || lowerText.includes('function') || lowerText.includes('script') || lowerText.includes('create a program');
 
         try {
-            // 3. Handle Intents
             if (isQuizRequest) {
                 await app.handleQuizGeneration(text);
             } else if (isCodeRequest) {
                 app.switchTab('code');
                 await app.handleCodeGeneration(text);
             } else {
-                // Standard Chat
                 const result = await chatSession.sendMessage(text);
                 const response = result.response.text();
                 app.appendMessage('model', response);
@@ -218,11 +203,9 @@ const app = {
         }
     },
 
-    // --- CODE FUNCTIONS ---
     handleCodeGeneration: async (prompt) => {
         app.appendMessage('model', 'Working on that code for you...');
 
-        // Specific Prompt for Code
         const codeResult = await chatSession.sendMessage(`
             The user wants code: "${prompt}".
             Provide ONLY raw JavaScript code.
@@ -231,7 +214,6 @@ const app = {
         `);
 
         let code = codeResult.response.text();
-        // Strip markdown if AI adds it despite instructions
         code = code.replace(/```javascript/g, '').replace(/```/g, '').trim();
 
         dom.editor.textarea.value = code;
@@ -270,10 +252,8 @@ const app = {
         const code = dom.editor.textarea.value;
         const consoleDiv = dom.editor.console;
 
-        // Clear previous output marker
         consoleDiv.innerHTML = '<div class="text-xs text-slate-500 mb-2 border-b border-slate-800 pb-1">Execution started...</div>';
 
-        // Mock Console
         const log = (...args) => {
             const line = document.createElement('div');
             line.className = 'text-green-400 font-mono break-all border-l-2 border-slate-700 pl-2 mb-1';
@@ -292,8 +272,6 @@ const app = {
         };
 
         try {
-            // Create a safe-ish scope
-            // Note: We use 'console' argument to shadow global console
             const safeRun = new Function('console', code);
             safeRun({ log, error, warn: log, info: log });
         } catch (e) {
@@ -301,7 +279,6 @@ const app = {
         }
     },
 
-    // --- QUIZ FUNCTIONS ---
     handleQuizGeneration: async (prompt) => {
         app.switchTab('quiz');
         dom.quiz.placeholder.classList.remove('hidden');
@@ -310,7 +287,6 @@ const app = {
 
         app.appendMessage('model', 'Generating a custom quiz for you...');
 
-        // JSON Schema for Quiz
         const schema = {
             type: SchemaType.OBJECT,
             properties: {
@@ -371,7 +347,6 @@ const app = {
         const qData = state.quiz.data[state.quiz.currentIndex];
         const total = state.quiz.data.length;
 
-        // Reset UI
         dom.quiz.nextBtn.classList.add('hidden');
         dom.quiz.explanation.classList.add('hidden');
         dom.quiz.score.innerText = state.quiz.score;
@@ -391,14 +366,12 @@ const app = {
     },
 
     handleAnswer: (selectedIndex, btnElement) => {
-        // Prevent multiple clicks
         const buttons = dom.quiz.optionsGrid.querySelectorAll('button');
         buttons.forEach(b => (b.disabled = true));
 
         const currentQ = state.quiz.data[state.quiz.currentIndex];
         const isCorrect = selectedIndex === currentQ.correctIndex;
 
-        // Visual Feedback
         if (isCorrect) {
             btnElement.className = 'w-full text-left p-4 rounded-lg bg-green-900/30 border border-green-500 transition flex items-center justify-between';
             btnElement.innerHTML += '<i class="fa-solid fa-check text-green-500"></i>';
@@ -410,7 +383,6 @@ const app = {
             btnElement.className = 'w-full text-left p-4 rounded-lg bg-red-900/30 border border-red-500 transition flex items-center justify-between';
             btnElement.innerHTML += '<i class="fa-solid fa-xmark text-red-500"></i>';
 
-            // Highlight correct answer
             const correctBtn = buttons[currentQ.correctIndex];
             correctBtn.className = 'w-full text-left p-4 rounded-lg bg-green-900/20 border border-green-500/50 transition flex items-center justify-between opacity-70';
             correctBtn.innerHTML += '<span class="text-xs text-green-400 font-bold">Correct Answer</span>';
@@ -420,12 +392,10 @@ const app = {
             dom.quiz.feedbackIcon.className = 'fa-solid fa-circle-xmark mt-1 text-red-400';
         }
 
-        // Show Explanation
         dom.quiz.feedbackText.innerText = currentQ.explanation;
         dom.quiz.explanation.classList.remove('hidden');
         dom.quiz.score.innerText = state.quiz.score;
 
-        // Show Next Button
         dom.quiz.nextBtn.classList.remove('hidden');
         dom.quiz.nextBtn.onclick = app.nextQuestion;
     },
@@ -447,8 +417,6 @@ const app = {
     }
 };
 
-// Start App
 window.addEventListener('load', app.init);
 
-// Export for use in HTML
 window.app = app;

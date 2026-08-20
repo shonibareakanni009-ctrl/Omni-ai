@@ -1,6 +1,4 @@
-/**
- * Banner utility functions
- */
+
 
 function closeBanner() {
     const banner = document.getElementById('v2-banner');
@@ -14,5 +12,4 @@ function closeBanner() {
     }
 }
 
-// Make function globally available
 window.closeBanner = closeBanner;

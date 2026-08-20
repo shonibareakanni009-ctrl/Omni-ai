@@ -1,4 +1,4 @@
-/* Custom Scrollbar */
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -17,21 +17,21 @@
     background: #64748b;
 }
 
-/* Code Editor Styling */
+
 .code-editor {
     font-family: 'Courier New', Courier, monospace;
-    background-color: #0f172a; /* Slate 900 */
-    color: #e2e8f0; /* Slate 200 */
+    background-color: #0f172a;
+    color: #e2e8f0;
     line-height: 1.5;
     tab-size: 4;
 }
 
-/* Console Output Styling */
+
 .console-output {
     font-family: 'Courier New', Courier, monospace;
 }
 
-/* Margin adjustments for banner */
+
 #chat-sidebar {
     margin-top: 88px;
     transition: margin-top 0.3s ease;
@@ -42,7 +42,7 @@
     transition: margin-top 0.3s ease;
 }
 
-/* Banner styling */
+
 #v2-banner {
     animation: slideDown 0.3s ease;
 }
