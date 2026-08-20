@@ -101,7 +101,7 @@ const app = {
         try {
             const genAI = new GoogleGenerativeAI(API_KEY);
             client = genAI.getGenerativeModel({
-                model: 'gemini-2.0-flash', // Using latest Flash model
+                model: 'models/gemini-3.6-flash',
                 systemInstruction: 'You are OmniTutor, an AI coding assistant and teacher. Your goal is to help the user learn programming or general knowledge. If the user asks for code, provide JavaScript examples. Keep responses concise and helpful.'
             });
 
@@ -337,7 +337,7 @@ const app = {
 
         try {
             const result = await client.getGenerativeModel({
-                model: 'gemini-2.0-flash',
+                model: 'models/gemini-3.6-flash',
                 generationConfig: {
                     responseMimeType: 'application/json',
                     responseSchema: schema
